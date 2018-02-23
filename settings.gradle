@@ -19,3 +19,4 @@ rootProject.name = 'experimental'
 
 include 'jdbc-result-set-stream'
 include 'constructor-binding'
+include 'spring-boot-war-deploy'
