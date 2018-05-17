@@ -1,10 +1,21 @@
-package parser.json.plain;public class StringParser{	public StringParser()	{	}parser.json.node.JsonNode jstring(parser.json.ParseContext context) {
+package parser.json.plain;
 
-        final java.lang.String quoteSymbol = "\"";
+import parser.json.ParseContext;
+import parser.json.ParseFailure;
+import parser.json.node.JsonNode;
+import parser.json.node.StringNode;
+
+public class StringParser {
+    public StringParser() {
+    }
+
+    JsonNode parse(ParseContext context) {
+
+        final String quoteSymbol = "\"";
 
         context.literal(quoteSymbol);
 
-        java.lang.StringBuilder buff = new java.lang.StringBuilder();
+        StringBuilder buff = new StringBuilder();
         while (true) {
             context.checkEOF();
 
@@ -15,7 +26,7 @@ package parser.json.plain;public class StringParser{	public StringParser()	{	}pa
                 char maybeEscaped = context.currentChar();
                 context.forwardChar();
                 buff.append(maybeEscaped);
-            } catch (parser.json.ParseFailure e) {
+            } catch (ParseFailure e) {
                 context.restore();
                 ;
             }
@@ -23,8 +34,8 @@ package parser.json.plain;public class StringParser{	public StringParser()	{	}pa
             context.save();
             try {
                 context.literal(quoteSymbol);
-                return new parser.json.node.StringNode(buff.toString());
-            } catch (parser.json.ParseFailure e) {
+                return new StringNode(buff.toString());
+            } catch (ParseFailure e) {
                 context.restore();
             }
 
@@ -34,4 +45,5 @@ package parser.json.plain;public class StringParser{	public StringParser()	{	}pa
 
             buff.append(partOfJString);
         }
-    }}
+    }
+}
